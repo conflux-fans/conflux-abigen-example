@@ -47,7 +47,8 @@ func deploy() {
 		log.Fatal(err)
 	}
 
-	tx, hash, _, err := DeployMyToken(nil, client, big.NewInt(10000), "ABC", 18, "ABC")
+	oneCfx := new(big.Int).Mul(big.NewInt(1e9), big.NewInt(1e9))
+	tx, hash, _, err := DeployMyToken(nil, client, new(big.Int).Mul(big.NewInt(1000000), oneCfx), "ABC", 18, "ABC")
 	if err != nil {
 		panic(err)
 	}
