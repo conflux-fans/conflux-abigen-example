@@ -4,6 +4,7 @@ package main
 import (
 	"log"
 	"math/big"
+	"os"
 	"time"
 
 	"github.com/Conflux-Chain/conflux-abigen/bind"
@@ -11,7 +12,6 @@ import (
 	// "abigen/bind"
 
 	sdk "github.com/Conflux-Chain/go-conflux-sdk"
-	"github.com/Conflux-Chain/go-conflux-sdk/middleware"
 	"github.com/Conflux-Chain/go-conflux-sdk/types"
 	"github.com/Conflux-Chain/go-conflux-sdk/types/cfxaddress"
 	"github.com/ethereum/go-ethereum/common"
@@ -48,7 +48,7 @@ func deploy() {
 	}
 
 	oneCfx := new(big.Int).Mul(big.NewInt(1e9), big.NewInt(1e9))
-	tx, hash, _, err := DeployMyToken(nil, client, new(big.Int).Mul(big.NewInt(1000000), oneCfx), "ABC", 18, "ABC")
+	tx, hash, _, err := DeployMyERC20Token(nil, client, new(big.Int).Mul(big.NewInt(1000000), oneCfx), "ABC", 18, "ABC")
 	if err != nil {
 		panic(err)
 	}
@@ -80,7 +80,7 @@ func writeContract() {
 
 	contractAddr := cfxaddress.MustNew("cfxtest:acd7apn6pnfhna7w1pa8evzhwhv3085vjjp1b8bav5")
 
-	instance, err := NewMyToken(contractAddr, client)
+	instance, err := NewMyERC20Token(contractAddr, client)
 	if err != nil {
 		panic(err)
 	}
@@ -119,7 +119,7 @@ func accessContract() {
 	}
 
 	contractAddr := cfxaddress.MustNew("cfxtest:acd7apn6pnfhna7w1pa8evzhwhv3085vjjp1b8bav5")
-	instance, err := NewMyToken(contractAddr, client)
+	instance, err := NewMyERC20Token(contractAddr, client)
 	if err != nil {
 		panic(err)
 	}
@@ -141,11 +141,11 @@ func accessContract() {
 func filterEvent() {
 	client, err := sdk.NewClient("https://test.confluxrpc.com", sdk.ClientOption{
 		KeystorePath: "../keystore",
+		Logger:       os.Stdout,
 	})
 	if err != nil {
 		panic(err)
 	}
-	client.UseCallRpcMiddleware(middleware.CallRpcConsoleMiddleware)
 
 	err = client.AccountManager.UnlockDefault("hello")
 	if err != nil {
@@ -153,7 +153,7 @@ func filterEvent() {
 	}
 
 	contractAddr := cfxaddress.MustNew("cfxtest:acd7apn6pnfhna7w1pa8evzhwhv3085vjjp1b8bav5")
-	instance, err := NewMyToken(contractAddr, client)
+	instance, err := NewMyERC20Token(contractAddr, client)
 	if err != nil {
 		panic(err)
 	}
@@ -197,12 +197,12 @@ func watchEvent() {
 	}
 
 	contractAddr := cfxaddress.MustNew("cfxtest:acd7apn6pnfhna7w1pa8evzhwhv3085vjjp1b8bav5")
-	instance, err := NewMyToken(contractAddr, client)
+	instance, err := NewMyERC20Token(contractAddr, client)
 	if err != nil {
 		panic(err)
 	}
 
-	eventCh := make(chan *MyTokenTransferOrChainReorg, 100)
+	eventCh := make(chan *MyERC20TokenTransferOrChainReorg, 100)
 	// reorgCh := make(chan types.ChainReorg, 100)
 	sub, err := instance.WatchTransfer(nil, eventCh, nil, nil)
 	if err != nil {

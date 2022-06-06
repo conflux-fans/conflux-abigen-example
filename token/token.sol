@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract MyToken {
+contract MyERC20Token {
     /* Public variables of the token */
     string public name;
     string public symbol;
