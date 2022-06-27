@@ -37,6 +37,7 @@ func main() {
 func deploy() {
 	client, err := sdk.NewClient("https://test.confluxrpc.com", sdk.ClientOption{
 		KeystorePath: "../keystore",
+		Logger:       os.Stdout,
 	})
 	if err != nil {
 		log.Fatal(err)
@@ -85,11 +86,6 @@ func writeContract() {
 		panic(err)
 	}
 
-	err = client.AccountManager.UnlockDefault("hello")
-	if err != nil {
-		panic(err)
-	}
-
 	to := cfxaddress.MustNew("cfxtest:aasfup1wgjyxkzy3575cbnn87xj5tam2zud125twew")
 	tx, hash, err := instance.Transfer(nil, to.MustGetCommonAddress(), big.NewInt(1))
 	if err != nil {
@@ -120,11 +116,6 @@ func accessContract() {
 
 	contractAddr := cfxaddress.MustNew("cfxtest:acd7apn6pnfhna7w1pa8evzhwhv3085vjjp1b8bav5")
 	instance, err := NewMyERC20Token(contractAddr, client)
-	if err != nil {
-		panic(err)
-	}
-
-	err = client.AccountManager.UnlockDefault("hello")
 	if err != nil {
 		panic(err)
 	}
