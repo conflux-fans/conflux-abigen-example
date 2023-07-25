@@ -7,11 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/Conflux-Chain/conflux-abigen/bind"
-
-	// "abigen/bind"
-
 	sdk "github.com/Conflux-Chain/go-conflux-sdk"
+	"github.com/Conflux-Chain/go-conflux-sdk/bind"
 	"github.com/Conflux-Chain/go-conflux-sdk/types"
 	"github.com/Conflux-Chain/go-conflux-sdk/types/cfxaddress"
 	"github.com/ethereum/go-ethereum/common"
